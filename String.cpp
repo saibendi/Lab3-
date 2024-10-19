@@ -264,18 +264,9 @@ String& String::replace(size_t pos, size_t len, const String& str) {
     if (len < str.sz) check_allocation(int(sz - len + str.sz + 1));
     
     // TODO: Implement replace() below.
-    size_t replace_len;
-    if (len == String::npos) {
-        replace_len = sz - pos;
-    }
-    else {
-        replace_len = std::min(len, sz - pos);
-    }
     
-    for (int i = pos; i < pos + replace_len; ++i) {
-        cstr[pos] = str[i-pos];
-    }
-    
+    erase(pos,len);
+    insert(pps,str);
     return *this;
 }
 
