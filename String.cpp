@@ -311,12 +311,18 @@ size_t String::find(const String& str, size_t pos) {
 // a search to succeed (and not the entire String "str") - a double for loop is okay here.
 size_t String::find_first_of(const String& str, size_t pos) {
     // TODO: Implement find_first_of() below.
-
-    // TODO: Delete the following 3 lines, just here so it compiles after being downloaded
-    (void) str;
-    (void) pos;
-
-    return 0;
+    if (pos >= sz) {
+        return npos;
+    }
+    size_t first_match = npos;
+    for (int i = 0; i < str.sz; ++i) {
+        String temp(str.cstr[i]);
+        if (find(temp,0) != npos && first_match > find(temp,0)) {
+            first_match = find(temp,0);
+        }
+    }
+    
+    return first_match;
 }
 
 // ============================================ END TODO #4 ============================================ //
@@ -336,11 +342,19 @@ size_t String::find_first_of(const String& str, size_t pos) {
 // is larger than the size ("sz") of the String.
 size_t String::find_last_of(const String& str, size_t pos) {
     // TODO: Implement find_last_of() below.
-
-    // TODO: Delete the following 3 lines, just here so it compiles after being downloaded
-    (void) str;
-    (void) pos;
-    return 0;
+    if (pos >= sz) {
+        pos = sz-1;
+    }
+    size_t last_match = npos;
+    for (size_t i = 0; i < str.sz; ++i) {
+        for (size_t j = pos; j >=0; --j) {
+            if (cstr[pos] == str.cstr[i] && pos > last_match) {
+                last_match = pos;
+            }
+        }
+    }
+    
+    return last_match;
 }
 
 // ============================================ END TODO #5 ============================================ //
