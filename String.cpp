@@ -203,11 +203,9 @@ String& String::erase(size_t pos, size_t len) {
         throw String_exception("Erase bounds invalid"); 
     }
 
-    // TODO: Delete the following line, just here so it compiles after being downloaded
-    (void) len;
-
     // TODO: Implement erase() below.
-
+    size_t erase_len = std::min(len, sz - pos);
+    if (len >= 0 && pos+len < )
     return *this;
 }
 
@@ -231,7 +229,16 @@ String& String::insert(size_t pos, const String& str) {
     // Make sure there is enough space to store the new string - don't worry about this.
     check_allocation(int(sz + str.sz + 1));
     // TODO: Implement insert() below.
-
+    for (int i = sz-1; i >= pos; --i) {
+        cstr[i + str.size()] = cstr[i];
+    }
+    sz = sz + str.size();
+    cstr[sz] = a_null_byte;
+    for (int i = pos; i < pos + str.size(); ++i) {
+        cstr[i] = str[i-pos];
+    }
+    
+    cstr[sz] = '\0';
     return *this;
 }
 
@@ -255,8 +262,20 @@ String& String::replace(size_t pos, size_t len, const String& str) {
     // Make sure there is enough space to store the new string - don't worry about this.
     if ((pos + len) > sz) len = sz - pos;
     if (len < str.sz) check_allocation(int(sz - len + str.sz + 1));
+    
     // TODO: Implement replace() below.
-
+    size_t replace_len;
+    if (len == String::npos) {
+        replace_len = sz - pos;
+    }
+    else {
+        replace_len = std::min(len, sz - pos);
+    }
+    
+    for (int i = pos; i < pos + replace_len; ++i) {
+        cstr[pos] = str[i-pos];
+    }
+    
     return *this;
 }
 
